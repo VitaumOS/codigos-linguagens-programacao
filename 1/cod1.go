@@ -1,13 +1,13 @@
 package main
-import "fmt"
+import ("fmt";"time")
 
 func main() {
-	ch := make(chan int)
-	go func() {
-		for i := 1; i <= 3; i++ {
-			ch <- i * i
-		}
-		close(ch)
-	}()
-	for v := range ch {fmt.Println(v)}
+	ch := make(chan string)
+	for i := 1; i <= 3; i++ {
+		go func(n int) {
+			time.Sleep(time.Duration(4-n) * 100 * time.Millisecond)
+			ch <- fmt.Sprint("tarefa ", n)
+		}(i)
+	}
+	fmt.Println(<-ch, <-ch, <-ch)
 }
